@@ -1,15 +1,14 @@
 package main
 
 import (
-	"net/http"
-
+	httpUser "github.com/Fiddler25/ddd-sample-app/http/user"
 	"github.com/labstack/echo/v4"
 )
 
 func main() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+
+	httpUser.Setup(e)
+
 	e.Logger.Fatal(e.Start(":3000"))
 }

@@ -17,9 +17,9 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	u := user.GetUsecase(gorm.DB()).Execute(userID)
+	res := user.NewGetUsecase(gorm.DB()).Execute(userID)
 
-	return c.String(http.StatusOK, u.Email)
+	return c.String(http.StatusOK, res.Email)
 }
 
 func Create(c echo.Context) error {

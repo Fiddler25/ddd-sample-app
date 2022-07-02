@@ -1,6 +1,8 @@
 package user
 
 import (
+	"github.com/Fiddler25/ddd-sample-app/gorm"
+	"github.com/Fiddler25/ddd-sample-app/usecase/user"
 	"github.com/labstack/echo/v4"
 	"log"
 	"net/http"
@@ -14,5 +16,7 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	return c.String(http.StatusOK, strconv.Itoa(userID))
+	u := user.NewGet(gorm.DB()).Execute(userID)
+
+	return c.String(http.StatusOK, u.Email)
 }

@@ -9,4 +9,5 @@ func main() {
 	db := gorm.DB()
 
 	user.Create(db)
+	user.AddPassword(db)
 }

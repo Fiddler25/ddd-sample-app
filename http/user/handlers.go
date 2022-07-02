@@ -27,6 +27,9 @@ func Create(c echo.Context) error {
 		log.Fatal(err)
 		return err
 	}
+	if req.Password != req.PasswordConfirmation {
+		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
+	}
 
 	res := user.NewCreateUsecase(gorm.DB()).Execute(req)
 

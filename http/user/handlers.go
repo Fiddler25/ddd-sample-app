@@ -1,7 +1,6 @@
 package user
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"github.com/Fiddler25/ddd-sample-app/gorm"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
 	"github.com/labstack/echo/v4"
@@ -23,13 +22,13 @@ func Get(c echo.Context) error {
 }
 
 func Create(c echo.Context) error {
-	var u model.User
-	if err := c.Bind(&u); err != nil {
+	var req user.CreateRequest
+	if err := c.Bind(&req); err != nil {
 		log.Fatal(err)
 		return err
 	}
 
-	res := user.NewCreateUsecase(gorm.DB()).Execute(u)
+	res := user.NewCreateUsecase(gorm.DB()).Execute(req)
 
 	return c.JSON(http.StatusCreated, res)
 }

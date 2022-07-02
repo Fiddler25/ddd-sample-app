@@ -8,7 +8,6 @@ import (
 )
 
 type CreateRequest struct {
-	Name                 string `json:"name"`
 	Email                string `json:"email"`
 	Password             string `json:"password"`
 	PasswordConfirmation string `json:"password_confirmation"`
@@ -24,7 +23,7 @@ func NewCreateUsecase(db *gorm.DB) CreateUsecase {
 
 func (u CreateUsecase) Execute(req CreateRequest) model.User {
 	hash := sdk.HashPassword(req.Password)
-	data := model.NewUser(req.Name, req.Email, hash)
+	data := model.NewUser(req.Email, hash)
 
 	return user.NewCreateRepository(u.db).Create(data)
 }

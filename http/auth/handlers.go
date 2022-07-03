@@ -13,7 +13,7 @@ func Login(c echo.Context) error {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
-	auth.NewLoginUsecase(gorm.DB())
+	res := auth.NewLoginUsecase(gorm.DB()).Execute(req)
 
-	return c.JSON(http.StatusOK, req)
+	return c.JSON(http.StatusOK, res)
 }

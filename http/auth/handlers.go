@@ -14,6 +14,9 @@ func Login(c echo.Context) error {
 	}
 
 	res := auth.NewLoginUsecase(gorm.DB()).Execute(req)
+	if res == nil {
+		return c.JSON(http.StatusUnauthorized, "ログインできません。")
+	}
 
 	return c.JSON(http.StatusOK, res)
 }

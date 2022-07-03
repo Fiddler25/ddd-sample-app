@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/gorm"
+	"github.com/Fiddler25/ddd-sample-app/sdk"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
 	"github.com/labstack/echo/v4"
 	"log"
@@ -27,7 +28,12 @@ func Create(c echo.Context) error {
 		log.Fatal(err)
 		return err
 	}
-	if req.Password != req.PasswordConfirmation {
+
+	validate := sdk.Validate()
+	if err := validate.Struct(req); err != nil {
+		return c.String(http.StatusBadRequest, err.Error())
+	}
+	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
 		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
 	}
 

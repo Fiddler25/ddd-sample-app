@@ -1,4 +1,4 @@
-package model
+package user
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"

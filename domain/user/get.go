@@ -1,7 +1,6 @@
 package user
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -14,8 +13,8 @@ func NewGetRepository(db *gorm.DB) GetRepository {
 	return GetRepository{db: db}
 }
 
-func (r GetRepository) ByUserID(userID int) model.User {
-	var ret model.User
+func (r GetRepository) ByUserID(userID int) User {
+	var ret User
 	if err := r.db.Find(&ret, userID).Error; err != nil {
 		log.Fatal(err)
 	}

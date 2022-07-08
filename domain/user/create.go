@@ -1,7 +1,6 @@
 package user
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"gorm.io/gorm"
 	"log"
 )
@@ -14,10 +13,10 @@ func NewCreateRepository(db *gorm.DB) CreateRepository {
 	return CreateRepository{db: db}
 }
 
-func (r CreateRepository) Create(data model.User) model.User {
-	if err := r.db.Create(&data).Error; err != nil {
+func (r CreateRepository) Create(ret User) User {
+	if err := r.db.Create(&ret).Error; err != nil {
 		log.Fatal(err)
 	}
 
-	return data
+	return ret
 }

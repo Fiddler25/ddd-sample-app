@@ -37,7 +37,7 @@ func Create(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
 	}
 
-	res := user.NewCreateUsecase(gorm.DB()).Execute(req)
+	res := user.NewCreateUsecase(gorm.DB()).Execute(c, req)
 
 	return c.JSON(http.StatusCreated, res)
 }

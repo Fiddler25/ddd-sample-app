@@ -41,3 +41,6 @@ func Create(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, res)
 }
+func Update(c echo.Context) error {
+	return c.String(400, "success")
+}

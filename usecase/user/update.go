@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	"github.com/Fiddler25/ddd-sample-app/domain/repository"
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"
 	"gorm.io/gorm"
 )
@@ -25,6 +26,8 @@ func NewUpdateUsecase(db *gorm.DB) UpdateUsecase {
 func (u UpdateUsecase) Execute(req UpdateRequest) *model.User {
 	hash := vo.NewPassword(req.Password)
 	user := model.NewUpdateUser(req.ID, req.Name, req.Email, hash)
+
+	repository.NewUser(u.db).Update(user)
 
 	return user
 }

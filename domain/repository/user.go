@@ -36,3 +36,10 @@ func (r UserRepository) Create(ret *model.User) *model.User {
 	}
 	return ret
 }
+
+func (r UserRepository) Update(ret *model.User) *model.User {
+	if err := r.db.Updates(&ret).Error; err != nil {
+		log.Fatal(err)
+	}
+	return ret
+}

@@ -13,7 +13,7 @@ func Login(c echo.Context) error {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
-	res := auth.NewLoginUsecase(gorm.DB()).Execute(req)
+	res := auth.NewLoginUsecase(gorm.DB()).Execute(c, req)
 	if res == nil {
 		return c.JSON(http.StatusUnauthorized, "ログインできません。")
 	}

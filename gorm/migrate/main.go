@@ -10,4 +10,5 @@ func main() {
 
 	user.Create(db)
 	user.AddPassword(db)
+	user.AddRememberToken(db)
 }

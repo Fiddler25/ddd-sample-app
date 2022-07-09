@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/gorm"
-	"github.com/Fiddler25/ddd-sample-app/sdk"
+	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
 	"github.com/labstack/echo/v4"
 	"log"
@@ -29,7 +29,7 @@ func Create(c echo.Context) error {
 		return err
 	}
 
-	validate := sdk.Validate()
+	validate := validator.Validate()
 	if err := validate.Struct(req); err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
 	}

@@ -1,4 +1,4 @@
-package sdk
+package session
 
 import (
 	"github.com/labstack/echo-contrib/session"

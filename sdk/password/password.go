@@ -1,11 +1,11 @@
-package sdk
+package password
 
 import (
 	"golang.org/x/crypto/bcrypt"
 	"log"
 )
 
-func HashPassword(rawPassword string) string {
+func Hash(rawPassword string) string {
 	hash, err := bcrypt.GenerateFromPassword([]byte(rawPassword), bcrypt.DefaultCost)
 	if err != nil {
 		log.Fatal(err)
@@ -13,7 +13,7 @@ func HashPassword(rawPassword string) string {
 	return string(hash)
 }
 
-func IsSamePassword(currPassword, reqPassword string) bool {
+func IsSame(currPassword, reqPassword string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(currPassword), []byte(reqPassword))
 	return err == nil
 }

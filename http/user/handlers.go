@@ -41,6 +41,22 @@ func Create(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, res)
 }
+
 func Update(c echo.Context) error {
-	return c.String(400, "success")
+	var req user.UpdateRequest
+	if err := c.Bind(&req); err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	validate := validator.Validate()
+	if err := validate.Struct(req); err != nil {
+		return c.String(http.StatusBadRequest, err.Error())
+	}
+
+	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
+		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
+	}
+
+	return c.JSON(http.StatusCreated, "success")
 }

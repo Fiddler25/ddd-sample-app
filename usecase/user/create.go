@@ -1,7 +1,8 @@
 package user
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/user"
+	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	"github.com/Fiddler25/ddd-sample-app/domain/repository"
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"
 	"gorm.io/gorm"
 )
@@ -20,9 +21,9 @@ func NewCreateUsecase(db *gorm.DB) CreateUsecase {
 	return CreateUsecase{db: db}
 }
 
-func (u CreateUsecase) Execute(req CreateRequest) user.User {
+func (u CreateUsecase) Execute(req CreateRequest) model.User {
 	hash := vo.NewPassword(req.Password)
-	data := user.NewUser(req.Email, hash)
+	user := model.NewUser(req.Email, hash)
 
-	return user.NewCreateRepository(u.db).Create(data)
+	return repository.NewUser(u.db).Create(user)
 }

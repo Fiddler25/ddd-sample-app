@@ -36,3 +36,13 @@ func (r UserRepository) Create(ret *model.User) *model.User {
 	}
 	return ret
 }
+
+func (r UserRepository) UpdateRememberToken(user *model.User) *model.User {
+	if err := r.db.
+		Model(&user).
+		Where("id = ?", user.ID).
+		Update("remember_token", user.RememberToken).Error; err != nil {
+		log.Fatal(err)
+	}
+	return user
+}

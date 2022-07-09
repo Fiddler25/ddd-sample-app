@@ -23,11 +23,15 @@ func NewLoginUsecase(db *gorm.DB) LoginUsecase {
 }
 
 func (u LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
-	user := repository.NewUser(u.db).GetByEmail(req.Email)
+	uRepo := repository.NewUser(u.db)
+	user := uRepo.GetByEmail(req.Email)
 	if !password.IsSame(string(user.Password), req.Password) {
 		return nil
 	}
 	session.Login(c, user.ID)
+
+	user.SetRememberToken()
+	uRepo.UpdateRememberToken(&user)
 
 	return &user
 }

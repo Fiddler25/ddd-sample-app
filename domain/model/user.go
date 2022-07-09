@@ -20,3 +20,12 @@ func NewUser(email string, password vo.Password) *User {
 		Password: password,
 	}
 }
+
+func NewUpdateUser(userID int, name string, email string, password vo.Password) *User {
+	return &User{
+		ID:       userID,
+		Name:     name,
+		Email:    email,
+		Password: password,
+	}
+}

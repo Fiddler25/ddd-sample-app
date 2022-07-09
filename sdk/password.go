@@ -10,6 +10,10 @@ func HashPassword(rawPassword string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	return string(hash)
+}
+
+func IsSamePassword(currPassword, reqPassword string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(currPassword), []byte(reqPassword))
+	return err == nil
 }

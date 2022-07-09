@@ -2,8 +2,8 @@ package auth
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
-	"github.com/Fiddler25/ddd-sample-app/domain/repository/auth"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/Fiddler25/ddd-sample-app/domain/repository"
+	"github.com/Fiddler25/ddd-sample-app/sdk"
 	"gorm.io/gorm"
 )
 
@@ -21,9 +21,8 @@ func NewLoginUsecase(db *gorm.DB) LoginUsecase {
 }
 
 func (u LoginUsecase) Execute(req LoginRequest) *model.User {
-	user := auth.NewLoginRepository(u.db).GetByEmail(req.Email)
-	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password))
-	if err != nil {
+	user := repository.NewUser(u.db).GetByEmail(req.Email)
+	if !sdk.IsSamePassword(string(user.Password), req.Password) {
 		return nil
 	}
 

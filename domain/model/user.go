@@ -14,8 +14,8 @@ type User struct {
 	UpdatedAt time.Time   `gorm:"type:DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
 }
 
-func NewUser(email string, password vo.Password) User {
-	return User{
+func NewUser(email string, password vo.Password) *User {
+	return &User{
 		Email:    email,
 		Password: password,
 	}

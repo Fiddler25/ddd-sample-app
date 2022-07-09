@@ -30,7 +30,7 @@ func (r UserRepository) GetByEmail(email string) model.User {
 	return ret
 }
 
-func (r UserRepository) Create(ret model.User) model.User {
+func (r UserRepository) Create(ret *model.User) *model.User {
 	if err := r.db.Create(&ret).Error; err != nil {
 		log.Fatal(err)
 	}

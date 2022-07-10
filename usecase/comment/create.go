@@ -2,6 +2,7 @@ package comment
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	"github.com/Fiddler25/ddd-sample-app/domain/repository"
 	"gorm.io/gorm"
 )
 
@@ -19,5 +20,8 @@ func NewCreateUsecase(db *gorm.DB) CreateUsecase {
 }
 
 func (u CreateUsecase) Execute(req CreateRequest) *model.Comment {
-	return &model.Comment{}
+	comment := model.NewComment(req.Body, req.UserID)
+	repository.NewComment(u.db).Create(comment)
+
+	return comment
 }

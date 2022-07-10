@@ -25,7 +25,7 @@ func NewCreateUsecase(db *gorm.DB) CreateUsecase {
 
 func (u CreateUsecase) Execute(c echo.Context, req CreateRequest) *model.User {
 	hash := vo.NewPassword(req.Password)
-	user := model.NewUser(req.Email, hash)
+	user := model.NewCreateUser(req.Email, hash)
 
 	repository.NewUser(u.db).Create(user)
 	session.Login(c, user.ID)

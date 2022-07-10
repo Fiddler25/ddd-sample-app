@@ -9,8 +9,8 @@ func CreateTableComments(db *gorm.DB) {
 		id bigint AUTO_INCREMENT,
 		body longtext NOT NULL,
 		user_id bigint NOT NULL,
-		created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		PRIMARY KEY (id),
 		INDEX idx_user_id_created_at (user_id, created_at),
 		CONSTRAINT fk_comments_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE

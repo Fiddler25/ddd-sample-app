@@ -14,6 +14,6 @@ func NewGetUsecase(db *gorm.DB) GetUsecase {
 	return GetUsecase{db: db}
 }
 
-func (u GetUsecase) Execute(userID int) model.User {
+func (u GetUsecase) Execute(userID model.UserID) model.User {
 	return repository.NewUser(u.db).GetByUserID(userID)
 }

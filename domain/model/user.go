@@ -5,8 +5,10 @@ import (
 	"time"
 )
 
+type UserID int
+
 type User struct {
-	ID        int         `gorm:"primaryKey"`
+	ID        UserID      `gorm:"primaryKey"`
 	Name      string      `gorm:"not null;size:50"`
 	Email     string      `gorm:"not null;size:255;unique"`
 	Password  vo.Password `gorm:"not null"`
@@ -14,8 +16,17 @@ type User struct {
 	UpdatedAt time.Time   `gorm:"type:DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"`
 }
 
-func NewUser(email string, password vo.Password) *User {
+func NewCreateUser(email string, password vo.Password) *User {
 	return &User{
+		Email:    email,
+		Password: password,
+	}
+}
+
+func NewUpdateUser(userID UserID, name string, email string, password vo.Password) *User {
+	return &User{
+		ID:       userID,
+		Name:     name,
 		Email:    email,
 		Password: password,
 	}

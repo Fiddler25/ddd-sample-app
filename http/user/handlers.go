@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"github.com/Fiddler25/ddd-sample-app/gorm"
 	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
@@ -17,9 +18,9 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	res := user.NewGetUsecase(gorm.DB()).Execute(userID)
+	res := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID))
 
-	return c.String(http.StatusOK, res.Email)
+	return c.JSON(http.StatusOK, res)
 }
 
 func Create(c echo.Context) error {
@@ -40,4 +41,37 @@ func Create(c echo.Context) error {
 	res := user.NewCreateUsecase(gorm.DB()).Execute(c, req)
 
 	return c.JSON(http.StatusCreated, res)
+}
+
+func Update(c echo.Context) error {
+	var req user.UpdateRequest
+	if err := c.Bind(&req); err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	validate := validator.Validate()
+	if err := validate.Struct(req); err != nil {
+		return c.String(http.StatusBadRequest, err.Error())
+	}
+
+	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
+		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
+	}
+
+	res := user.NewUpdateUsecase(gorm.DB()).Execute(req)
+
+	return c.JSON(http.StatusNoContent, res)
+}
+
+func Delete(c echo.Context) error {
+	userID, err := strconv.Atoi(c.Param("user_id"))
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	user.NewDeleteUsecase(gorm.DB()).Execute(model.UserID(userID))
+
+	return c.JSON(http.StatusNoContent, userID)
 }

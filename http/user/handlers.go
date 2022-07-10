@@ -1,6 +1,7 @@
 package user
 
 import (
+	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"github.com/Fiddler25/ddd-sample-app/gorm"
 	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
@@ -17,7 +18,7 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	res := user.NewGetUsecase(gorm.DB()).Execute(userID)
+	res := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID))
 
 	return c.String(http.StatusOK, res.Email)
 }
@@ -70,7 +71,7 @@ func Delete(c echo.Context) error {
 		return err
 	}
 
-	user.NewDeleteUsecase(gorm.DB()).Execute(userID)
+	user.NewDeleteUsecase(gorm.DB()).Execute(model.UserID(userID))
 
 	return c.JSON(http.StatusNoContent, userID)
 }

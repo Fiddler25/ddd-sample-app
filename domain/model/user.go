@@ -5,8 +5,10 @@ import (
 	"time"
 )
 
+type UserID int
+
 type User struct {
-	ID        int         `gorm:"primaryKey"`
+	ID        UserID      `gorm:"primaryKey"`
 	Name      string      `gorm:"not null;size:50"`
 	Email     string      `gorm:"not null;size:255;unique"`
 	Password  vo.Password `gorm:"not null"`
@@ -21,7 +23,7 @@ func NewUser(email string, password vo.Password) *User {
 	}
 }
 
-func NewUpdateUser(userID int, name string, email string, password vo.Password) *User {
+func NewUpdateUser(userID UserID, name string, email string, password vo.Password) *User {
 	return &User{
 		ID:       userID,
 		Name:     name,

@@ -43,3 +43,9 @@ func (r UserRepository) Update(ret *model.User) *model.User {
 	}
 	return ret
 }
+
+func (r UserRepository) Delete(userID int) {
+	if err := r.db.Delete(&model.User{}, userID).Error; err != nil {
+		log.Fatal(err)
+	}
+}

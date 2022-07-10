@@ -60,5 +60,17 @@ func Update(c echo.Context) error {
 
 	res := user.NewUpdateUsecase(gorm.DB()).Execute(req)
 
-	return c.JSON(http.StatusCreated, res)
+	return c.JSON(http.StatusNoContent, res)
+}
+
+func Delete(c echo.Context) error {
+	userID, err := strconv.Atoi(c.Param("user_id"))
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+
+	user.NewDeleteUsecase(gorm.DB()).Execute(userID)
+
+	return c.JSON(http.StatusNoContent, userID)
 }

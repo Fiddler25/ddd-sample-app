@@ -12,4 +12,5 @@ func main() {
 	user.Create(db)
 	user.AddPassword(db)
 	comment.Create(db)
+	user.AddOnDeleteCascadeToUser(db)
 }

@@ -8,12 +8,15 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+const prefix = "/api"
+
 func main() {
 	e := echo.New()
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte("secret"))))
 
-	auth.Setup(e)
-	user.Setup(e)
+	root := e.Group(prefix)
+	auth.Setup(root)
+	user.Setup(root)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }

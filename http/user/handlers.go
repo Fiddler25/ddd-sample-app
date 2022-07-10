@@ -20,7 +20,7 @@ func Get(c echo.Context) error {
 
 	res := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID))
 
-	return c.String(http.StatusOK, res.Email)
+	return c.JSON(http.StatusOK, res)
 }
 
 func Create(c echo.Context) error {

@@ -14,7 +14,7 @@ func NewUser(db *gorm.DB) UserRepository {
 	return UserRepository{db: db}
 }
 
-func (r UserRepository) GetByUserID(userID int) model.User {
+func (r UserRepository) GetByUserID(userID model.UserID) model.User {
 	var ret model.User
 	if err := r.db.Find(&ret, userID).Error; err != nil {
 		log.Fatal(err)
@@ -35,6 +35,19 @@ func (r UserRepository) Create(ret *model.User) *model.User {
 		log.Fatal(err)
 	}
 	return ret
+}
+
+func (r UserRepository) Update(ret *model.User) *model.User {
+	if err := r.db.Updates(&ret).Error; err != nil {
+		log.Fatal(err)
+	}
+	return ret
+}
+
+func (r UserRepository) Delete(userID model.UserID) {
+	if err := r.db.Delete(&model.User{}, userID).Error; err != nil {
+		log.Fatal(err)
+	}
 }
 
 func (r UserRepository) UpdateRememberToken(user *model.User) *model.User {

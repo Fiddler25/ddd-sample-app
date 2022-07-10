@@ -15,4 +15,5 @@ func main() {
 	comment.Create(db)
 	user.AddOnDeleteCascadeToUser(db)
 	query.CreateTableUsers(db)
+	query.CreateTableComments(db)
 }

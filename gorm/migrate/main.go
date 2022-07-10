@@ -4,6 +4,7 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/gorm"
 	"github.com/Fiddler25/ddd-sample-app/gorm/migrate/comment"
 	"github.com/Fiddler25/ddd-sample-app/gorm/migrate/user"
+	"github.com/Fiddler25/ddd-sample-app/gorm/migrate/query"
 )
 
 func main() {
@@ -13,4 +14,5 @@ func main() {
 	user.AddPassword(db)
 	comment.Create(db)
 	user.AddOnDeleteCascadeToUser(db)
+	query.CreateTableUsers(db)
 }

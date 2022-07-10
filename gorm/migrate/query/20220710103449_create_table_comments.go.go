@@ -10,8 +10,8 @@ func CreateTableUsers(db *gorm.DB) {
 		name varchar(50) NOT NULL,
 		email varchar(255) NOT NULL UNIQUE,
 		password varchar(255) NOT NULL,
-		created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+		created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+		updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 		PRIMARY KEY (id)
 	)`)
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/http/auth"
+	"github.com/Fiddler25/ddd-sample-app/http/comment"
 	"github.com/Fiddler25/ddd-sample-app/http/user"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
@@ -17,6 +18,7 @@ func main() {
 	root := e.Group(prefix)
 	auth.Setup(root)
 	user.Setup(root)
+	comment.Setup(root)
 
 	e.Logger.Fatal(e.Start(":3000"))
 }

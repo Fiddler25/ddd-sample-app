@@ -27,22 +27,28 @@ func NewLoginUsecase(db *gorm.DB) LoginUsecase {
 	return LoginUsecase{db: db}
 }
 
-func (u LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
-	uRepo := repository.NewUser(u.db)
-	user := uRepo.GetByEmail(req.Email)
-	if !password.IsSame(string(user.Password), req.Password) {
+func (uc LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
+	repo := repository.NewUser(uc.db)
+	u := repo.GetByEmail(req.Email)
+	if !password.IsSame(string(u.Password), req.Password) {
 		return nil
 	}
-	session.Login(c, user.ID)
+	session.Login(c, u.ID)
 
 	token := vo.NewRandomToken()
-	user.SetRememberDigest(token)
-	uRepo.UpdateRememberDigest(&user)
+	updateRememberDigest(u, repo, token)
 
-	cookie.Set(c, hash.Generate(strconv.Itoa(int(user.ID))), string(token))
-	if err := bcrypt.CompareHashAndPassword([]byte(user.RememberDigest), []byte(token)); err != nil {
+	cookie.Set(c, hash.Generate(strconv.Itoa(int(u.ID))), string(token))
+	if err := bcrypt.CompareHashAndPassword([]byte(u.RememberDigest), []byte(token)); err != nil {
 		return nil
 	}
 
-	return &user
+	return &u
+}
+
+func updateRememberDigest(user model.User, repo repository.UserRepository, token vo.Token) model.User {
+	user.SetRememberDigest(token)
+	repo.UpdateRememberDigest(&user)
+
+	return user
 }

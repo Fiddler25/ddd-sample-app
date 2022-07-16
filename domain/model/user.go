@@ -32,6 +32,6 @@ func NewUpdateUser(userID UserID, name string, email string, password vo.Passwor
 }
 
 func (u *User) SetRememberDigest(token vo.Token) {
-	hashedToken := hash.Generate(string(token))
-	u.RememberDigest = vo.Token(hashedToken)
+	hashed := hash.Generate(string(token))
+	u.RememberDigest = vo.Token(hashed)
 }

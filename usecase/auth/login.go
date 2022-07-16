@@ -9,6 +9,7 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/sdk/password"
 	"github.com/Fiddler25/ddd-sample-app/sdk/session"
 	"github.com/Fiddler25/ddd-sample-app/sdk/session/entity"
+	sModel "github.com/Fiddler25/ddd-sample-app/sdk/session/model"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
@@ -36,6 +37,7 @@ func (uc LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 	}
 	session.Login(c, u.ID)
 	sessID := entity.NewSessionID()
+	sess := sModel.NewSession(sessID, u.ID)
 
 	token := vo.NewRandomToken()
 	u = updateRememberDigest(u, repo, token)

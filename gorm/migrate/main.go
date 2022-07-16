@@ -10,5 +10,5 @@ func main() {
 
 	query.CreateTableUsers(db)
 	query.CreateTableComments(db)
-	query.AddColumnRememberToken(db)
+	query.AddColumnRememberDigest(db)
 }

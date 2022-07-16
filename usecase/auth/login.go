@@ -9,6 +9,7 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/sdk/password"
 	"github.com/Fiddler25/ddd-sample-app/sdk/session"
 	"github.com/labstack/echo/v4"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 	"strconv"
 )
@@ -39,6 +40,9 @@ func (u LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 	uRepo.UpdateRememberDigest(&user)
 
 	cookie.Set(c, hash.Generate(strconv.Itoa(int(user.ID))), string(token))
+	if err := bcrypt.CompareHashAndPassword([]byte(user.RememberDigest), []byte(token)); err != nil {
+		return nil
+	}
 
 	return &user
 }

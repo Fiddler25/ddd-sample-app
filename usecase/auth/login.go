@@ -36,10 +36,10 @@ func (uc LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 	session.Login(c, u.ID)
 
 	token := vo.NewRandomToken()
-	updateRememberDigest(u, repo, token)
+	u = updateRememberDigest(u, repo, token)
 
 	cookie.Set(c, hash.Generate(strconv.Itoa(int(u.ID))), string(token))
-	if err := bcrypt.CompareHashAndPassword([]byte(u.RememberDigest), []byte(token)); err != nil {
+	if !isAuthenticated(u.RememberDigest, token) {
 		return nil
 	}
 
@@ -51,4 +51,9 @@ func updateRememberDigest(user model.User, repo repository.UserRepository, token
 	repo.UpdateRememberDigest(&user)
 
 	return user
+}
+
+func isAuthenticated(digest, token vo.Token) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(digest), []byte(token))
+	return err == nil
 }

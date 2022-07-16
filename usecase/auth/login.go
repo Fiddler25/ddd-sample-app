@@ -3,6 +3,7 @@ package auth
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"github.com/Fiddler25/ddd-sample-app/domain/repository"
+	"github.com/Fiddler25/ddd-sample-app/domain/vo"
 	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
 	"github.com/Fiddler25/ddd-sample-app/sdk/hash"
 	"github.com/Fiddler25/ddd-sample-app/sdk/password"
@@ -33,10 +34,11 @@ func (u LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 	}
 	session.Login(c, user.ID)
 
-	user.SetRememberDigest()
+	token := vo.NewRandomToken()
+	user.SetRememberDigest(token)
 	uRepo.UpdateRememberDigest(&user)
 
-	cookie.Set(c, hash.Generate(strconv.Itoa(int(user.ID))), string(user.RememberDigest))
+	cookie.Set(c, hash.Generate(strconv.Itoa(int(user.ID))), string(token))
 
 	return &user
 }

@@ -2,6 +2,7 @@ package model
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"
+	"github.com/Fiddler25/ddd-sample-app/sdk/hash"
 )
 
 type UserID int
@@ -30,6 +31,7 @@ func NewUpdateUser(userID UserID, name string, email string, password vo.Passwor
 	}
 }
 
-func (u *User) SetRememberDigest() {
-	u.RememberDigest = vo.NewToken()
+func (u *User) SetRememberDigest(token vo.Token) {
+	hashedToken := hash.Generate(string(token))
+	u.RememberDigest = vo.Token(hashedToken)
 }

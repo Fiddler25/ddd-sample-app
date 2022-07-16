@@ -3,6 +3,7 @@ package auth
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"github.com/Fiddler25/ddd-sample-app/domain/repository"
+	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
 	"github.com/Fiddler25/ddd-sample-app/sdk/password"
 	"github.com/Fiddler25/ddd-sample-app/sdk/session"
 	"github.com/labstack/echo/v4"
@@ -32,6 +33,8 @@ func (u LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 
 	user.SetRememberToken()
 	uRepo.UpdateRememberToken(&user)
+
+	cookie.Set(c, string(user.RememberToken))
 
 	return &user
 }

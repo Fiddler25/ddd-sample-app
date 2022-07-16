@@ -1,11 +1,11 @@
 package vo
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/sdk/password"
+	"github.com/Fiddler25/ddd-sample-app/sdk/hash"
 )
 
 type Password string
 
 func NewPassword(rawValue string) Password {
-	return Password(password.Hash(rawValue))
+	return Password(hash.Generate(rawValue))
 }

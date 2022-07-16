@@ -49,3 +49,13 @@ func (r UserRepository) Delete(userID model.UserID) {
 		log.Fatal(err)
 	}
 }
+
+func (r UserRepository) UpdateRememberDigest(user *model.User) *model.User {
+	if err := r.db.
+		Model(&user).
+		Where("id = ?", user.ID).
+		Update("remember_digest", user.RememberDigest).Error; err != nil {
+		log.Fatal(err)
+	}
+	return user
+}

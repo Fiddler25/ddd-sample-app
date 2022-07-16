@@ -1,23 +1,36 @@
-package model
+package session
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	"github.com/Fiddler25/ddd-sample-app/sdk/rand"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"log"
 )
 
-type SessionID string
+type ID string
 
 type Session struct {
-	SessionID SessionID
+	SessionID ID
 	UserID    model.UserID
 }
 
-func NewSession(sessID SessionID, userID model.UserID) *Session {
+const sessionIDLength = 32
+
+func NewModel(sessID ID, userID model.UserID) *Session {
 	return &Session{
 		SessionID: sessID,
 		UserID:    userID,
 	}
+}
+
+func NewID() ID {
+	sessID, err := rand.GenerateRandomString(sessionIDLength)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return ID(sessID)
 }
 
 func Login(c echo.Context, userID model.UserID) {

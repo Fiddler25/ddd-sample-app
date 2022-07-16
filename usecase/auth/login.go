@@ -33,10 +33,10 @@ func (u LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 	}
 	session.Login(c, user.ID)
 
-	user.SetRememberToken()
-	uRepo.UpdateRememberToken(&user)
+	user.SetRememberDigest()
+	uRepo.UpdateRememberDigest(&user)
 
-	cookie.Set(c, hash.Generate(strconv.Itoa(int(user.ID))), string(user.RememberToken))
+	cookie.Set(c, hash.Generate(strconv.Itoa(int(user.ID))), string(user.RememberDigest))
 
 	return &user
 }

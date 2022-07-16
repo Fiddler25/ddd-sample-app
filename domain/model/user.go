@@ -7,11 +7,11 @@ import (
 type UserID int
 
 type User struct {
-	ID            UserID
-	Name          string
-	Email         string
-	Password      vo.Password
-	RememberToken vo.Token
+	ID             UserID
+	Name           string
+	Email          string
+	Password       vo.Password
+	RememberDigest vo.Token
 }
 
 func NewCreateUser(email string, password vo.Password) *User {
@@ -30,6 +30,6 @@ func NewUpdateUser(userID UserID, name string, email string, password vo.Passwor
 	}
 }
 
-func (u *User) SetRememberToken() {
-	u.RememberToken = vo.NewToken()
+func (u *User) SetRememberDigest() {
+	u.RememberDigest = vo.NewToken()
 }

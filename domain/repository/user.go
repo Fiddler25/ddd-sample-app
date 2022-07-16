@@ -50,11 +50,11 @@ func (r UserRepository) Delete(userID model.UserID) {
 	}
 }
 
-func (r UserRepository) UpdateRememberToken(user *model.User) *model.User {
+func (r UserRepository) UpdateRememberDigest(user *model.User) *model.User {
 	if err := r.db.
 		Model(&user).
 		Where("id = ?", user.ID).
-		Update("remember_token", user.RememberToken).Error; err != nil {
+		Update("remember_digest", user.RememberDigest).Error; err != nil {
 		log.Fatal(err)
 	}
 	return user

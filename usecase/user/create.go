@@ -4,8 +4,6 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
 	"github.com/Fiddler25/ddd-sample-app/domain/repository"
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"
-	"github.com/Fiddler25/ddd-sample-app/sdk/session"
-	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 
@@ -23,12 +21,11 @@ func NewCreateUsecase(db *gorm.DB) CreateUsecase {
 	return CreateUsecase{db: db}
 }
 
-func (u CreateUsecase) Execute(c echo.Context, req CreateRequest) *model.User {
+func (u CreateUsecase) Execute(req CreateRequest) *model.User {
 	hash := vo.NewPassword(req.Password)
 	user := model.NewCreateUser(req.Email, hash)
 
 	repository.NewUser(u.db).Create(user)
-	session.Login(c, user.ID)
 
 	return user
 }

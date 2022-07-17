@@ -1,4 +1,4 @@
-package model
+package user
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"
@@ -15,14 +15,14 @@ type User struct {
 	RememberDigest vo.Token
 }
 
-func NewCreateUser(email string, password vo.Password) *User {
+func NewCreate(email string, password vo.Password) *User {
 	return &User{
 		Email:    email,
 		Password: password,
 	}
 }
 
-func NewUpdateUser(userID UserID, name string, email string, password vo.Password) *User {
+func NewUpdate(userID UserID, name string, email string, password vo.Password) *User {
 	return &User{
 		ID:       userID,
 		Name:     name,

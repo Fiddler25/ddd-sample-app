@@ -1,8 +1,7 @@
 package user
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
-	"github.com/Fiddler25/ddd-sample-app/domain/repository"
+	"github.com/Fiddler25/ddd-sample-app/domain/user"
 	"gorm.io/gorm"
 )
 
@@ -14,6 +13,6 @@ func NewGetUsecase(db *gorm.DB) GetUsecase {
 	return GetUsecase{db: db}
 }
 
-func (u GetUsecase) Execute(userID model.UserID) model.User {
-	return repository.NewUser(u.db).GetByUserID(userID)
+func (u GetUsecase) Execute(userID user.UserID) user.User {
+	return user.NewRepository(u.db).GetByUserID(userID)
 }

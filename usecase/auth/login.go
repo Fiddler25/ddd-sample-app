@@ -2,7 +2,7 @@ package auth
 
 import (
 	"github.com/Fiddler25/ddd-sample-app/domain/model"
-	"github.com/Fiddler25/ddd-sample-app/domain/repository"
+	"github.com/Fiddler25/ddd-sample-app/domain/user"
 	"github.com/Fiddler25/ddd-sample-app/sdk/password"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
@@ -22,7 +22,7 @@ func NewLoginUsecase(db *gorm.DB) LoginUsecase {
 }
 
 func (uc LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
-	repo := repository.NewUser(uc.db)
+	repo := user.NewUser(uc.db)
 	u := repo.GetByEmail(req.Email)
 	if !password.IsSame(string(u.Password), req.Password) {
 		return nil

@@ -13,12 +13,12 @@ import (
 func Login(c echo.Context) error {
 	var req auth.LoginRequest
 	if err := c.Bind(&req); err != nil {
-		return c.String(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	res := auth.NewLoginUsecase(gorm.DB()).Execute(req)
-	if res == nil {
-		return c.JSON(http.StatusUnauthorized, "ログインできません。")
+	res, err := auth.NewLoginUsecase(gorm.DB()).Execute(req)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, err.Error())
 	}
 
 	if err := startSession(c, res.ID); err != nil {

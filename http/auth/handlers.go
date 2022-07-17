@@ -36,20 +36,10 @@ func startSession(c echo.Context, userID model.UserID) error {
 		oldSessionID = session.ID(ck.Value)
 	}
 
-	sRepo := session.NewRepository(gorm.DB())
-	if oldSessionID != "" {
-		if oldSession, err := sRepo.Find(oldSessionID); err != nil {
-			return err
-		} else {
-			sRepo.Delete(oldSession)
-		}
+	if ck, err := session.NewService(gorm.DB()).Start(oldSessionID, userID); err != nil {
+		return err
+	} else {
+		c.SetCookie(ck)
+		return nil
 	}
-
-	sessionID := session.NewID()
-	sess := session.NewModel(sessionID, userID)
-	sRepo.Create(sess)
-
-	cookie.Set(c, string(sess.SessionID))
-
-	return nil
 }

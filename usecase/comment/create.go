@@ -1,14 +1,14 @@
 package comment
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
-	"github.com/Fiddler25/ddd-sample-app/domain/repository"
+	"github.com/Fiddler25/ddd-sample-app/domain/comment"
+	"github.com/Fiddler25/ddd-sample-app/domain/user"
 	"gorm.io/gorm"
 )
 
 type CreateRequest struct {
-	Body   string       `json:"body" validate:"required,max=140"`
-	UserID model.UserID `json:"user_id" validate:"required"`
+	Body   string      `json:"body" validate:"required,max=140"`
+	UserID user.UserID `json:"user_id" validate:"required"`
 }
 
 type CreateUsecase struct {
@@ -19,9 +19,9 @@ func NewCreateUsecase(db *gorm.DB) CreateUsecase {
 	return CreateUsecase{db: db}
 }
 
-func (u CreateUsecase) Execute(req CreateRequest) *model.Comment {
-	comment := model.NewComment(req.Body, req.UserID)
-	repository.NewComment(u.db).Create(comment)
+func (uc CreateUsecase) Execute(req CreateRequest) *comment.Comment {
+	c := comment.NewEntity(req.Body, req.UserID)
+	comment.NewRepository(uc.db).Create(c)
 
-	return comment
+	return c
 }

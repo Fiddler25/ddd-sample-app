@@ -38,10 +38,18 @@ func (uc LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 	} else {
 		oldSessionID = session.ID(ck.Value)
 	}
-	sessID := session.NewID()
-	sess := session.NewModel(sessID, u.ID)
-	session.NewRepository(uc.db).Create(sess)
+	sRepo := session.NewRepository(uc.db)
+	if oldSessionID != "" {
+		if oldSession, err := sRepo.Find(oldSessionID); err != nil {
+			return nil
+		} else {
+			sRepo.Delete(oldSession)
+		}
+	}
 
+	sessionID := session.NewID()
+	sess := session.NewModel(sessionID, u.ID)
+	sRepo.Create(sess)
 	cookie.Set(c, string(sess.SessionID))
 
 	token := vo.NewRandomToken()

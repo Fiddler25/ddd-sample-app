@@ -12,4 +12,5 @@ func main() {
 	query.CreateTableComments(db)
 	query.AddColumnRememberDigest(db)
 	query.CreateTableSessions(db)
+	query.DropColumnRememberDigest(db)
 }

@@ -34,8 +34,9 @@ func (r Repository) GetByEmail(email string) User {
 
 func (r Repository) EmailExists(email string) bool {
 	var ret *User
-	r.db.Where("email = ?", email).First(&ret)
-
+	if err := r.db.Where("email = ?", email).First(&ret).Error; err != nil {
+		log.Fatal(err)
+	}
 	return ret == nil
 }
 

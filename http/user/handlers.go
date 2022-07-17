@@ -56,11 +56,11 @@ func Update(c echo.Context) error {
 
 	validate := validator.Validate()
 	if err := validate.Struct(req); err != nil {
-		return c.String(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
-		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
+		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
 	res := user.NewUpdateUsecase(gorm.DB()).Execute(req)

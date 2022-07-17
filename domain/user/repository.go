@@ -48,13 +48,3 @@ func (r Repository) Delete(userID UserID) {
 		log.Fatal(err)
 	}
 }
-
-//func (r Repository) UpdateRememberDigest(user *User) *User {
-//	if err := r.db.
-//		Model(&user).
-//		Where("id = ?", ID).
-//		Update("remember_digest", RememberDigest).Error; err != nil {
-//		log.Fatal(err)
-//	}
-//	return user
-//}

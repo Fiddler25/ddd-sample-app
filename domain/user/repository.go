@@ -32,6 +32,13 @@ func (r Repository) GetByEmail(email string) User {
 	return ret
 }
 
+func (r Repository) EmailExists(email string) bool {
+	var ret *User
+	r.db.Where("email = ?", email).First(&ret)
+
+	return ret == nil
+}
+
 func (r Repository) Create(ret *User) *User {
 	if err := r.db.Create(&ret).Error; err != nil {
 		log.Fatal(err)

@@ -40,9 +40,11 @@ func Create(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
 	}
 
-	res := user.NewCreateUsecase(gorm.DB()).Execute(req)
-
-	return c.JSON(http.StatusCreated, res)
+	if res, err := user.NewCreateUsecase(gorm.DB()).Execute(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(http.StatusCreated, res)
+	}
 }
 
 func Update(c echo.Context) error {

@@ -1,7 +1,7 @@
 package session
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	"github.com/Fiddler25/ddd-sample-app/domain/user"
 	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
 	"gorm.io/gorm"
 	"net/http"
@@ -15,7 +15,7 @@ func NewService(db *gorm.DB) Service {
 	return Service{db: db}
 }
 
-func (s Service) Start(oldSessionID ID, userID model.UserID) (*http.Cookie, error) {
+func (s Service) Start(oldSessionID ID, userID user.UserID) (*http.Cookie, error) {
 	tx := s.db.Begin()
 
 	sRepo := NewRepository(tx)

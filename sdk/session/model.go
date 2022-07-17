@@ -1,7 +1,7 @@
 package session
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	"github.com/Fiddler25/ddd-sample-app/domain/user"
 	"github.com/Fiddler25/ddd-sample-app/sdk/rand"
 	"log"
 )
@@ -10,12 +10,12 @@ type ID string
 
 type Session struct {
 	SessionID ID
-	UserID    model.UserID
+	UserID    user.UserID
 }
 
 const sessionIDLength = 32
 
-func NewModel(sessID ID, userID model.UserID) *Session {
+func NewModel(sessID ID, userID user.UserID) *Session {
 	return &Session{
 		SessionID: sessID,
 		UserID:    userID,

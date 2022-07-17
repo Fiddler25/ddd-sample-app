@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	"github.com/Fiddler25/ddd-sample-app/domain/user"
 	"github.com/Fiddler25/ddd-sample-app/gorm"
 	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
 	"github.com/Fiddler25/ddd-sample-app/sdk/session"
@@ -16,7 +16,7 @@ func Login(c echo.Context) error {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
-	res := auth.NewLoginUsecase(gorm.DB()).Execute(c, req)
+	res := auth.NewLoginUsecase(gorm.DB()).Execute(req)
 	if res == nil {
 		return c.JSON(http.StatusUnauthorized, "ログインできません。")
 	}
@@ -28,7 +28,7 @@ func Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, res)
 }
 
-func startSession(c echo.Context, userID model.UserID) error {
+func startSession(c echo.Context, userID user.UserID) error {
 	var oldSessionID session.ID
 	if ck, err := c.Cookie(cookie.CookieNameSession); err != nil {
 		oldSessionID = ""

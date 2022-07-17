@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/model"
+	model "github.com/Fiddler25/ddd-sample-app/domain/user"
 	"github.com/Fiddler25/ddd-sample-app/gorm"
 	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
@@ -38,7 +38,7 @@ func Create(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
 	}
 
-	res := user.NewCreateUsecase(gorm.DB()).Execute(c, req)
+	res := user.NewCreateUsecase(gorm.DB()).Execute(req)
 
 	return c.JSON(http.StatusCreated, res)
 }

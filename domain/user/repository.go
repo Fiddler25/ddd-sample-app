@@ -1,6 +1,7 @@
 package user
 
 import (
+	"errors"
 	"gorm.io/gorm"
 	"log"
 )
@@ -13,12 +14,14 @@ func NewRepository(db *gorm.DB) Repository {
 	return Repository{db: db}
 }
 
-func (r Repository) GetByUserID(userID UserID) User {
+func (r Repository) GetByUserID(userID UserID) (User, error) {
 	var ret User
-	if err := r.db.Find(&ret, userID).Error; err != nil {
-		log.Fatal(err)
+	if err := r.db.Where("id = ?", userID).Take(&ret).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return User{}, err
+		}
 	}
-	return ret
+	return ret, nil
 }
 
 func (r Repository) GetByEmail(email string) User {

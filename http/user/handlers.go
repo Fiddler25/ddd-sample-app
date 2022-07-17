@@ -18,9 +18,11 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	res := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID))
-
-	return c.JSON(http.StatusOK, res)
+	if res, err := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID)); err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	} else {
+		return c.JSON(http.StatusOK, res)
+	}
 }
 
 func Create(c echo.Context) error {

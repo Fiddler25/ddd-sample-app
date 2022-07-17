@@ -5,13 +5,11 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/domain/repository"
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"
 	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
-	"github.com/Fiddler25/ddd-sample-app/sdk/hash"
 	"github.com/Fiddler25/ddd-sample-app/sdk/password"
 	"github.com/Fiddler25/ddd-sample-app/sdk/session"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 type LoginRequest struct {
@@ -38,10 +36,11 @@ func (uc LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 	sess := session.NewModel(sessID, u.ID)
 	session.NewRepository(uc.db).Create(sess)
 
+	cookie.Set(c, string(sess.SessionID))
+
 	token := vo.NewRandomToken()
 	u = updateRememberDigest(u, repo, token)
 
-	cookie.Set(c, hash.Generate(strconv.Itoa(int(u.ID))), string(token))
 	if !isAuthenticated(u.RememberDigest, token) {
 		return nil
 	}

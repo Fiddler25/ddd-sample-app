@@ -32,6 +32,12 @@ func (uc LoginUsecase) Execute(c echo.Context, req LoginRequest) *model.User {
 		return nil
 	}
 	session.Login(c, u.ID)
+	var oldSessionID session.ID
+	if ck, err := c.Cookie(cookie.CookieNameSession); err != nil {
+		oldSessionID = ""
+	} else {
+		oldSessionID = session.ID(ck.Value)
+	}
 	sessID := session.NewID()
 	sess := session.NewModel(sessID, u.ID)
 	session.NewRepository(uc.db).Create(sess)

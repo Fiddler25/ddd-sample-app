@@ -20,10 +20,12 @@ func (s Service) Start(oldSessionID ID, userID model.UserID) (*http.Cookie, erro
 
 	sRepo := NewRepository(tx)
 	if oldSessionID != "" {
-		if oldSession, err := sRepo.Find(oldSessionID); err != nil {
+		if _, err := sRepo.Find(oldSessionID); err != nil {
 			return nil, err
 		} else {
-			sRepo.Delete(oldSession)
+			sRepo.Delete(&Session{
+				SessionID: oldSessionID, UserID: userID,
+			})
 		}
 	}
 

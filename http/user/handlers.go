@@ -63,9 +63,11 @@ func Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
-	res := user.NewUpdateUsecase(gorm.DB()).Execute(req)
-
-	return c.JSON(http.StatusNoContent, res)
+	if res, err := user.NewUpdateUsecase(gorm.DB()).Execute(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(http.StatusCreated, res)
+	}
 }
 
 func Delete(c echo.Context) error {

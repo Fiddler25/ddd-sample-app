@@ -26,7 +26,7 @@ func (uc CreateUsecase) Execute(req CreateRequest) (*user.User, error) {
 	u := user.NewCreate(req.Email, hash)
 
 	uRepo := user.NewRepository(uc.db)
-	if ok := uRepo.EmailExists(u.Email); !ok {
+	if usr, _ := uRepo.GetByEmail(u.Email); usr != nil {
 		return nil, fmt.Errorf("メールアドレスが重複しています：%s", u.Email)
 	}
 	uRepo.Create(u)

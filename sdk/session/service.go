@@ -30,7 +30,7 @@ func (s Service) Start(oldSessionID ID, userID user.UserID) (*http.Cookie, error
 	}
 
 	sessionID := NewID()
-	sess := sRepo.Create(NewModel(sessionID, userID))
+	sess := sRepo.Create(NewSession(sessionID, userID))
 
 	if err := tx.Commit().Error; err != nil {
 		return nil, err

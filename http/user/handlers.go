@@ -18,9 +18,11 @@ func Get(c echo.Context) error {
 		return err
 	}
 
-	res := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID))
-
-	return c.JSON(http.StatusOK, res)
+	if res, err := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID)); err != nil {
+		return c.JSON(http.StatusNotFound, err.Error())
+	} else {
+		return c.JSON(http.StatusOK, res)
+	}
 }
 
 func Create(c echo.Context) error {
@@ -32,15 +34,17 @@ func Create(c echo.Context) error {
 
 	validate := validator.Validate()
 	if err := validate.Struct(req); err != nil {
-		return c.String(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
-		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
+		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
-	res := user.NewCreateUsecase(gorm.DB()).Execute(req)
-
-	return c.JSON(http.StatusCreated, res)
+	if res, err := user.NewCreateUsecase(gorm.DB()).Execute(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(http.StatusCreated, res)
+	}
 }
 
 func Update(c echo.Context) error {
@@ -52,16 +56,18 @@ func Update(c echo.Context) error {
 
 	validate := validator.Validate()
 	if err := validate.Struct(req); err != nil {
-		return c.String(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
-		return c.String(http.StatusBadRequest, "パスワードが一致しません。")
+		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
-	res := user.NewUpdateUsecase(gorm.DB()).Execute(req)
-
-	return c.JSON(http.StatusNoContent, res)
+	if res, err := user.NewUpdateUsecase(gorm.DB()).Execute(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(http.StatusCreated, res)
+	}
 }
 
 func Delete(c echo.Context) error {

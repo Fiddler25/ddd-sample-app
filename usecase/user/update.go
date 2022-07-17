@@ -1,6 +1,7 @@
 package user
 
 import (
+	"fmt"
 	"github.com/Fiddler25/ddd-sample-app/domain/user"
 	"github.com/Fiddler25/ddd-sample-app/domain/vo"
 	"gorm.io/gorm"
@@ -22,11 +23,17 @@ func NewUpdateUsecase(db *gorm.DB) UpdateUsecase {
 	return UpdateUsecase{db: db}
 }
 
-func (uc UpdateUsecase) Execute(req UpdateRequest) *user.User {
+func (uc UpdateUsecase) Execute(req UpdateRequest) (*user.User, error) {
 	hash := vo.NewPassword(req.Password)
 	u := user.NewUpdate(req.ID, req.Name, req.Email, hash)
 
-	user.NewRepository(uc.db).Update(u)
+	uRepo := user.NewRepository(uc.db)
+	if _, err := uRepo.GetByUserID(u.ID); err != nil {
+		return nil, err
+	} else if ok := uRepo.EmailExists(req.Email, req.ID); !ok {
+		return nil, fmt.Errorf("メールアドレスが重複しています：%s", u.Email)
+	}
+	uRepo.Update(u)
 
-	return u
+	return u, nil
 }

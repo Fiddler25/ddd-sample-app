@@ -1,23 +1,15 @@
 package user
 
-import (
-	"github.com/Fiddler25/ddd-sample-app/domain/vo"
-)
-
 type UserID int
 
 type User struct {
-	ID       UserID
-	Name     string
-	Email    string
-	Password vo.Password
+	ID   UserID
+	Name string
 }
 
-func NewUpdate(userID UserID, name string, email string, password vo.Password) *User {
+func New(userID UserID, name string) *User {
 	return &User{
-		ID:       userID,
-		Name:     name,
-		Email:    email,
-		Password: password,
+		ID:   userID,
+		Name: name,
 	}
 }

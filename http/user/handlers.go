@@ -37,10 +37,6 @@ func Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
-		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
-	}
-
 	if res, err := user.NewUpdateUsecase(gorm.DB()).Execute(req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	} else {

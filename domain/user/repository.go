@@ -34,16 +34,6 @@ func (r Repository) GetByEmail(email string) (*User, error) {
 	return ret, nil
 }
 
-func (r Repository) EmailExists(reqEmail string, reqUserID UserID) bool {
-	var ret *User
-	if err := r.db.Where("email = ? AND id != ?", reqEmail, reqUserID).First(&ret).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return true
-		}
-	}
-	return false
-}
-
 func (r Repository) Update(ret *User) *User {
 	if err := r.db.Updates(&ret).Error; err != nil {
 		log.Fatal(err)

@@ -6,7 +6,6 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
 	"github.com/labstack/echo/v4"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -14,8 +13,7 @@ import (
 func Get(c echo.Context) error {
 	userID, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
-		log.Fatal(err)
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	if res, err := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID)); err != nil {
@@ -28,8 +26,7 @@ func Get(c echo.Context) error {
 func Update(c echo.Context) error {
 	var req user.UpdateRequest
 	if err := c.Bind(&req); err != nil {
-		log.Fatal(err)
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	validate := validator.Validate()
@@ -47,8 +44,7 @@ func Update(c echo.Context) error {
 func Delete(c echo.Context) error {
 	userID, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
-		log.Fatal(err)
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	user.NewDeleteUsecase(gorm.DB()).Execute(model.UserID(userID))

@@ -5,15 +5,13 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/comment"
 	"github.com/labstack/echo/v4"
-	"log"
 	"net/http"
 )
 
 func Create(c echo.Context) error {
 	var req comment.CreateRequest
 	if err := c.Bind(&req); err != nil {
-		log.Fatal(err)
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	validate := validator.Validate()

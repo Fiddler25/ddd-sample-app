@@ -1,6 +1,9 @@
 package auth
 
-import "gorm.io/gorm"
+import (
+	"github.com/Fiddler25/ddd-sample-app/domain/auth"
+	"gorm.io/gorm"
+)
 
 type SignUpRequest struct {
 	Email                string `json:"email" validate:"required,max=255,email"`
@@ -17,5 +20,6 @@ func NewSignUpUsecase(db *gorm.DB) SignUpUsecase {
 }
 
 func (uc SignUpUsecase) Execute(req SignUpRequest) {
-
+	hash := auth.NewPassword(req.Password)
+	auth.New(auth.Email(req.Email), hash)
 }

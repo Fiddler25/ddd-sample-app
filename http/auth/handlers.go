@@ -25,12 +25,11 @@ func SignUp(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
-	res, err := auth.NewSignUpUsecase(gorm.DB()).Execute(req)
-	if err != nil {
+	if res, err := auth.NewSignUpUsecase(gorm.DB()).Execute(req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
+	} else {
+		return c.JSON(http.StatusOK, res)
 	}
-
-	return c.JSON(http.StatusOK, res)
 }
 
 func Login(c echo.Context) error {

@@ -10,6 +10,14 @@ import (
 	"net/http"
 )
 
+func SignUp(c echo.Context) error {
+	var req auth.SignUpRequest
+	if err := c.Bind(&req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	return nil
+}
+
 func Login(c echo.Context) error {
 	var req auth.LoginRequest
 	if err := c.Bind(&req); err != nil {

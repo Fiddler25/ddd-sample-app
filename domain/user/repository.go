@@ -44,13 +44,6 @@ func (r Repository) EmailExists(reqEmail string, reqUserID UserID) bool {
 	return false
 }
 
-func (r Repository) Create(ret *User) *User {
-	if err := r.db.Create(&ret).Error; err != nil {
-		log.Fatal(err)
-	}
-	return ret
-}
-
 func (r Repository) Update(ret *User) *User {
 	if err := r.db.Updates(&ret).Error; err != nil {
 		log.Fatal(err)

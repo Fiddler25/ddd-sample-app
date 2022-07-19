@@ -25,28 +25,6 @@ func Get(c echo.Context) error {
 	}
 }
 
-func Create(c echo.Context) error {
-	var req user.CreateRequest
-	if err := c.Bind(&req); err != nil {
-		log.Fatal(err)
-		return err
-	}
-
-	validate := validator.Validate()
-	if err := validate.Struct(req); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
-		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
-	}
-
-	if res, err := user.NewCreateUsecase(gorm.DB()).Execute(req); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	} else {
-		return c.JSON(http.StatusCreated, res)
-	}
-}
-
 func Update(c echo.Context) error {
 	var req user.UpdateRequest
 	if err := c.Bind(&req); err != nil {

@@ -13,13 +13,6 @@ type User struct {
 	Password vo.Password
 }
 
-func NewCreate(email string, password vo.Password) *User {
-	return &User{
-		Email:    email,
-		Password: password,
-	}
-}
-
 func NewUpdate(userID UserID, name string, email string, password vo.Password) *User {
 	return &User{
 		ID:       userID,

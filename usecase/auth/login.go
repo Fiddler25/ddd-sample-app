@@ -2,8 +2,7 @@ package auth
 
 import (
 	"errors"
-	"github.com/Fiddler25/ddd-sample-app/domain/user"
-	"github.com/Fiddler25/ddd-sample-app/sdk/password"
+	"github.com/Fiddler25/ddd-sample-app/domain/auth"
 	"gorm.io/gorm"
 )
 
@@ -20,14 +19,14 @@ func NewLoginUsecase(db *gorm.DB) LoginUsecase {
 	return LoginUsecase{db: db}
 }
 
-func (uc LoginUsecase) Execute(req LoginRequest) (*user.User, error) {
-	repo := user.NewRepository(uc.db)
+func (uc LoginUsecase) Execute(req LoginRequest) (*auth.User, error) {
+	repo := auth.NewRepository(uc.db)
 
-	if u, err := repo.GetByEmail(req.Email); err != nil {
+	if usr, err := repo.GetByEmail(auth.Email(req.Email)); err != nil {
 		return nil, errors.New("メールアドレスが存在しません")
-	} else if !password.IsSame(string(u.Password), req.Password) {
+	} else if !auth.IsSamePassword(string(usr.Password), req.Password) {
 		return nil, errors.New("パスワードが一致しません")
 	} else {
-		return u, nil
+		return usr, nil
 	}
 }

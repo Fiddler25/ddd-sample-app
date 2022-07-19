@@ -5,6 +5,7 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/gorm"
 	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
 	"github.com/Fiddler25/ddd-sample-app/sdk/session"
+	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/auth"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -14,6 +15,14 @@ func SignUp(c echo.Context) error {
 	var req auth.SignUpRequest
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	validate := validator.Validate()
+	if err := validate.Struct(req); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
+		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
 	auth.NewSignUpUsecase(gorm.DB()).Execute(req)

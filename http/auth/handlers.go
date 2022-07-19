@@ -15,6 +15,8 @@ func SignUp(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
+
+	auth.NewSignUpUsecase(gorm.DB()).Execute(req)
 	return nil
 }
 

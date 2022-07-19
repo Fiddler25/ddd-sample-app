@@ -10,7 +10,7 @@ type Comment struct {
 	UserID user.UserID
 }
 
-func NewEntity(body string, userID user.UserID) *Comment {
+func New(body string, userID user.UserID) *Comment {
 	return &Comment{
 		Body:   body,
 		UserID: userID,

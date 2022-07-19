@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"fmt"
 	"github.com/Fiddler25/ddd-sample-app/domain/auth"
 	"gorm.io/gorm"
 )
@@ -19,7 +20,16 @@ func NewSignUpUsecase(db *gorm.DB) SignUpUsecase {
 	return SignUpUsecase{db: db}
 }
 
-func (uc SignUpUsecase) Execute(req SignUpRequest) {
+func (uc SignUpUsecase) Execute(req SignUpRequest) (*auth.User, error) {
 	hash := auth.NewPassword(req.Password)
-	auth.New(auth.Email(req.Email), hash)
+	email := auth.Email(req.Email)
+	usr := auth.New(email, hash)
+
+	aRepo := auth.NewRepository(uc.db)
+	if registeredUser, _ := aRepo.GetByEmail(usr.Email); registeredUser != nil {
+		return nil, fmt.Errorf("メールアドレスが重複しています：%s", usr.Email)
+	}
+	aRepo.Create(usr)
+
+	return usr, nil
 }

@@ -20,7 +20,7 @@ func NewCreateUsecase(db *gorm.DB) CreateUsecase {
 }
 
 func (uc CreateUsecase) Execute(req CreateRequest) *comment.Comment {
-	c := comment.NewEntity(req.Body, req.UserID)
+	c := comment.New(req.Body, req.UserID)
 	comment.NewRepository(uc.db).Create(c)
 
 	return c

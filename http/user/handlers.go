@@ -6,7 +6,6 @@ import (
 	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
 	"github.com/Fiddler25/ddd-sample-app/usecase/user"
 	"github.com/labstack/echo/v4"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -14,8 +13,7 @@ import (
 func Get(c echo.Context) error {
 	userID, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
-		log.Fatal(err)
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	if res, err := user.NewGetUsecase(gorm.DB()).Execute(model.UserID(userID)); err != nil {
@@ -25,42 +23,15 @@ func Get(c echo.Context) error {
 	}
 }
 
-func Create(c echo.Context) error {
-	var req user.CreateRequest
-	if err := c.Bind(&req); err != nil {
-		log.Fatal(err)
-		return err
-	}
-
-	validate := validator.Validate()
-	if err := validate.Struct(req); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
-		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
-	}
-
-	if res, err := user.NewCreateUsecase(gorm.DB()).Execute(req); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
-	} else {
-		return c.JSON(http.StatusCreated, res)
-	}
-}
-
 func Update(c echo.Context) error {
 	var req user.UpdateRequest
 	if err := c.Bind(&req); err != nil {
-		log.Fatal(err)
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	validate := validator.Validate()
 	if err := validate.Struct(req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
-	}
-
-	if err := validate.VarWithValue(req.Password, req.PasswordConfirmation, "eqfield"); err != nil {
-		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
 	if res, err := user.NewUpdateUsecase(gorm.DB()).Execute(req); err != nil {
@@ -73,8 +44,7 @@ func Update(c echo.Context) error {
 func Delete(c echo.Context) error {
 	userID, err := strconv.Atoi(c.Param("user_id"))
 	if err != nil {
-		log.Fatal(err)
-		return err
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	user.NewDeleteUsecase(gorm.DB()).Execute(model.UserID(userID))

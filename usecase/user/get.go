@@ -13,6 +13,6 @@ func NewGetUsecase(db *gorm.DB) GetUsecase {
 	return GetUsecase{db: db}
 }
 
-func (u GetUsecase) Execute(userID user.UserID) (user.User, error) {
-	return user.NewRepository(u.db).GetByUserID(userID)
+func (uc GetUsecase) Execute(userID user.UserID) (user.User, error) {
+	return user.NewRepository(uc.db).GetByUserID(userID)
 }

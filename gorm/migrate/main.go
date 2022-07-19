@@ -13,4 +13,5 @@ func main() {
 	query.AddColumnRememberDigest(db)
 	query.CreateTableSessions(db)
 	query.DropColumnRememberDigest(db)
+	query.AlterColumnName(db)
 }

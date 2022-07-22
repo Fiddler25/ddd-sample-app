@@ -1,8 +1,8 @@
 package session
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/user"
-	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
+	"github.com/Fiddler25/sample-app/domain/user"
+	"github.com/Fiddler25/sample-app/sdk/cookie"
 	"gorm.io/gorm"
 	"net/http"
 )

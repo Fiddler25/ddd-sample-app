@@ -1,12 +1,12 @@
 package auth
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/user"
-	"github.com/Fiddler25/ddd-sample-app/gorm"
-	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
-	"github.com/Fiddler25/ddd-sample-app/sdk/session"
-	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
-	"github.com/Fiddler25/ddd-sample-app/usecase/auth"
+	"github.com/Fiddler25/sample-app/domain/user"
+	"github.com/Fiddler25/sample-app/gorm"
+	"github.com/Fiddler25/sample-app/sdk/cookie"
+	"github.com/Fiddler25/sample-app/sdk/session"
+	"github.com/Fiddler25/sample-app/sdk/validator"
+	"github.com/Fiddler25/sample-app/usecase/auth"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )

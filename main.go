@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/http/auth"
-	"github.com/Fiddler25/ddd-sample-app/http/comment"
-	"github.com/Fiddler25/ddd-sample-app/http/user"
+	"github.com/Fiddler25/sample-app/http/auth"
+	"github.com/Fiddler25/sample-app/http/comment"
+	"github.com/Fiddler25/sample-app/http/user"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"

@@ -1,4 +1,4 @@
-module github.com/Fiddler25/ddd-sample-app
+module github.com/Fiddler25/sample-app
 
 go 1.18
 

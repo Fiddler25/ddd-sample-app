@@ -1,8 +1,8 @@
 package session
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/user"
-	"github.com/Fiddler25/ddd-sample-app/sdk/rand"
+	"github.com/Fiddler25/sample-app/domain/user"
+	"github.com/Fiddler25/sample-app/sdk/rand"
 )
 
 type ID string

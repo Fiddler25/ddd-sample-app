@@ -1,10 +1,10 @@
 package user
 
 import (
-	model "github.com/Fiddler25/ddd-sample-app/domain/user"
-	"github.com/Fiddler25/ddd-sample-app/gorm"
-	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
-	"github.com/Fiddler25/ddd-sample-app/usecase/user"
+	model "github.com/Fiddler25/sample-app/domain/user"
+	"github.com/Fiddler25/sample-app/gorm"
+	"github.com/Fiddler25/sample-app/sdk/validator"
+	"github.com/Fiddler25/sample-app/usecase/user"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"

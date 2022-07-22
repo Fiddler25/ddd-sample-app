@@ -1,9 +1,9 @@
 package comment
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/gorm"
-	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
-	"github.com/Fiddler25/ddd-sample-app/usecase/comment"
+	"github.com/Fiddler25/sample-app/gorm"
+	"github.com/Fiddler25/sample-app/sdk/validator"
+	"github.com/Fiddler25/sample-app/usecase/comment"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )

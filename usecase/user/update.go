@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/user"
+	"github.com/Fiddler25/sample-app/domain/user"
 	"gorm.io/gorm"
 )
 

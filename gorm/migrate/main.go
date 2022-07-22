@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/gorm"
-	"github.com/Fiddler25/ddd-sample-app/gorm/migrate/query"
+	"github.com/Fiddler25/sample-app/gorm"
+	"github.com/Fiddler25/sample-app/gorm/migrate/query"
 )
 
 func main() {

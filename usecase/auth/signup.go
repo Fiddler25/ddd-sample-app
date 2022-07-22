@@ -2,7 +2,7 @@ package auth
 
 import (
 	"fmt"
-	"github.com/Fiddler25/ddd-sample-app/domain/auth"
+	"github.com/Fiddler25/ddd-sample-app/domain/user/auth"
 	"gorm.io/gorm"
 )
 

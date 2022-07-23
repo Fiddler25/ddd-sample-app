@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/sdk/hash"
+	"github.com/Fiddler25/sample-app/sdk/hash"
 	"golang.org/x/crypto/bcrypt"
 )
 

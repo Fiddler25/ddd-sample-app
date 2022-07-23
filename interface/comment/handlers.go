@@ -1,9 +1,9 @@
 package comment
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/gorm"
-	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
-	"github.com/Fiddler25/ddd-sample-app/usecase/comment"
+	"github.com/Fiddler25/sample-app/db"
+	"github.com/Fiddler25/sample-app/sdk/validator"
+	"github.com/Fiddler25/sample-app/usecase/comment"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -19,7 +19,7 @@ func Create(c echo.Context) error {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
-	res := comment.NewCreateUsecase(gorm.DB()).Execute(req)
+	res := comment.NewCreateUsecase(db.Conn()).Execute(req)
 
 	return c.JSON(http.StatusCreated, res)
 }

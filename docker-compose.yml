@@ -7,8 +7,8 @@ services:
     environment:
       TZ: Asia/Tokyo
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-      MYSQL_DATABASE: ddd-sample-app
+      MYSQL_DATABASE: sample-app
     ports:
       - '13306:3306'
     volumes:
-      - ./tmp/container/ddd-sample-app-db-data:/var/lib/mysql
+      - ./tmp/container/sample-app-db-data:/var/lib/mysql

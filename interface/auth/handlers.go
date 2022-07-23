@@ -1,12 +1,12 @@
 package auth
 
 import (
-	"github.com/Fiddler25/ddd-sample-app/domain/user"
-	"github.com/Fiddler25/ddd-sample-app/gorm"
-	"github.com/Fiddler25/ddd-sample-app/sdk/cookie"
-	"github.com/Fiddler25/ddd-sample-app/sdk/session"
-	"github.com/Fiddler25/ddd-sample-app/sdk/validator"
-	"github.com/Fiddler25/ddd-sample-app/usecase/auth"
+	"github.com/Fiddler25/sample-app/db"
+	"github.com/Fiddler25/sample-app/domain/user"
+	"github.com/Fiddler25/sample-app/sdk/cookie"
+	"github.com/Fiddler25/sample-app/sdk/session"
+	"github.com/Fiddler25/sample-app/sdk/validator"
+	"github.com/Fiddler25/sample-app/usecase/auth"
 	"github.com/labstack/echo/v4"
 	"net/http"
 )
@@ -25,7 +25,7 @@ func SignUp(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, "パスワードが一致しません")
 	}
 
-	if res, err := auth.NewSignUpUsecase(gorm.DB()).Execute(req); err != nil {
+	if res, err := auth.NewSignUpUsecase(db.Conn()).Execute(req); err != nil {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	} else {
 		return c.JSON(http.StatusOK, res)
@@ -38,7 +38,7 @@ func Login(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	res, err := auth.NewLoginUsecase(gorm.DB()).Execute(req)
+	res, err := auth.NewLoginUsecase(db.Conn()).Execute(req)
 	if err != nil {
 		return c.JSON(http.StatusUnauthorized, err.Error())
 	}
@@ -58,7 +58,7 @@ func startSession(c echo.Context, userID user.UserID) error {
 		oldSessionID = session.ID(ck.Value)
 	}
 
-	if ck, err := session.NewService(gorm.DB()).Start(oldSessionID, userID); err != nil {
+	if ck, err := session.NewService(db.Conn()).Start(oldSessionID, userID); err != nil {
 		return err
 	} else {
 		c.SetCookie(ck)

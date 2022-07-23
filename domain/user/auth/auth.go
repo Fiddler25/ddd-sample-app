@@ -1,6 +1,6 @@
 package auth
 
-import "github.com/Fiddler25/ddd-sample-app/domain/user"
+import "github.com/Fiddler25/sample-app/domain/user"
 
 type Email string
 
